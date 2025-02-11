@@ -10,6 +10,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //Route::post('/send-reset-link', [AuthController::class, 'resetPasswordRequest'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 
+Route::get('/test', function () {
+    return response()->json(['message' => 'API is working!']);
+});
+
 //protected routes
 Route::post('/create-task', [TaskController::class, 'createTask'])->name('create.task');
 Route::post('/update-task/{id}', [TaskController::class, 'updateTask'])->name('update.task');
