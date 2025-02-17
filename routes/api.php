@@ -3,6 +3,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\CategoryController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -10,15 +12,56 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //Route::post('/send-reset-link', [AuthController::class, 'resetPasswordRequest'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
 
-Route::get('/test', function () {
-    return response()->json(['message' => 'API is working!']);
+//protected routes TASK
+Route::prefix('v1')->group(function () {
+    Route::prefix('tasks')->middleware('auth:sanctum')->group(function () {
+        Route::post('/create-task', [TaskController::class, 'createTask'])->name('create.task');
+        Route::post('/update-task/{id}', [TaskController::class, 'updateTask'])->name('update.task');
+        Route::get('/show-all-task', [TaskController::class, 'showAll'])->name('show.all');
+        Route::get('/show-task/{id}', [TaskController::class, 'show'])->name('show.task');
+        Route::post('/submit-task/{id}', [TaskController::class, 'submitTask'])->name('submit.task');
+    });
 });
 
-//protected routes
-Route::post('/create-task', [TaskController::class, 'createTask'])->name('create.task');
-Route::post('/update-task/{id}', [TaskController::class, 'updateTask'])->name('update.task');
-Route::get('/show-all-task', [TaskController::class, 'showAll'])->name('show.all');
-Route::get('/show-task/{id}', [TaskController::class, 'show'])->name('show.task');
+//product routes
+Route::prefix('v1')->group(function () {
+    Route::prefix('products')->middleware('auth:sanctum')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('product.index');
+        Route::post('/create-product', [ProductController::class, 'store'])->name('product.store');
+        Route::post('/update-product/{id}', [ProductController::class, 'update'])->name('product.update');
+        Route::post('/approve-product/{id}', [ProductController::class, 'approveProduct'])->name('product.approve');
+        Route::get('/show-product/{id}', [ProductController::class, 'show'])->name('product.show');
+        Route::get('/show-all-product', [ProductController::class, 'showAll'])->name('product.showAll');
+        //generate link
+        Route::post('/reseller-link/{id}', [ProductController::class, 'resellerLink'])->name('product.resellerLink');    
+    });
+    
+    //Route::get('/get-product/{id}', [ProductController::class, 'show'])->name('product.show');
+});
+
+
+
+
+// Route::middleware('auth:sanctum')->prefix('api/v1')->group(function () {
+//     Route::get('/products/show-product/{id}', [ProductController::class, 'show']);
+// });
+
+
+//Categories routes
+Route::prefix('v1')->group(function () {
+    Route::prefix('categories')->middleware('auth:sanctum')->group(function () {
+        Route::post('/create', [CategoryController::class, 'create'])->name('category.create');
+        //Route::post('/create-product', [CategoryController::class, 'store'])->name('product.store');
+    });
+});
+
+
+
+
+
+
+
+//product routes
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
