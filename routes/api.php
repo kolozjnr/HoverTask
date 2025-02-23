@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\TaskController;
+use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\V1\WalletController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -54,6 +55,11 @@ Route::prefix('v1')->group(function () {
         Route::post('/initialize-payment', [WalletController::class, 'initializePayment'])->name('wallet.initialize');
         Route::post('/verify-payment', [WalletController::class, 'verifyPayment'])->name('wallet.verify');
         Route::get('/balance', [WalletController::class, 'getBalance'])->name('wallet.balance');
+    });
+
+    Route::prefix('payment')->middleware('auth:sanctum')->group(function () {
+        Route::post('/initialize-payment', [OrderController::class, 'pay']);
+        Route::get('/verify-payment/{reference}', [OrderController::class, 'verify']);
     });
     
     //Route::get('/get-product/{id}', [ProductController::class, 'show'])->name('product.show');

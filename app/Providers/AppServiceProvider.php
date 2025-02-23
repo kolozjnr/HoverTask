@@ -2,12 +2,15 @@
 
 namespace App\Providers;
 
+use App\Services\PaymentService;
 use App\Repository\CartRepository;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use App\Repository\ICartRepository;
 use App\Repository\ITaskRepository;
 use App\Repository\IUserRepository;
+use App\Repository\OrderRepository;
+use App\Repository\IOrderRepository;
 use App\Repository\WalletRepository;
 use App\Repository\IWalletRepository;
 use App\Repository\ProductRepository;
@@ -32,10 +35,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IWishlistRepository::class, WishlistRepository::class);
         $this->app->bind(ICartRepository::class, CartRepository::class);
         $this->app->bind(IWalletRepository::class, WalletRepository::class);
-
-
-
-
+        $this->app->bind(IOrderRepository::class, OrderRepository::class);
+        $this->app->bind(PaymentService::class, function ($app) {
+            return new PaymentService();
+        });
+        
     }
 
     /**

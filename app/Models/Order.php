@@ -12,6 +12,7 @@ class Order extends Model
         'user_id',
         'status',
         'total_amount',
+
     ];
 
     public function user()
@@ -23,4 +24,9 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class, 'order_items')->withPivot('quantity', 'price');
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }                       
 }
