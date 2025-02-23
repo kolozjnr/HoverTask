@@ -2,14 +2,20 @@
 
 namespace App\Providers;
 
+use App\Repository\CartRepository;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
+use App\Repository\ICartRepository;
 use App\Repository\ITaskRepository;
 use App\Repository\IUserRepository;
+use App\Repository\WalletRepository;
+use App\Repository\IWalletRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\IProductRepository;
+use App\Repository\WishlistRepository;
 use App\Repository\ICategoryRepository;
+use App\Repository\IWishlistRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ITaskRepository::class, TaskRepository::class);
         $this->app->bind(IProductRepository::class, ProductRepository::class);
         $this->app->bind(ICategoryRepository::class, CategoryRepository::class);
+        $this->app->bind(IWishlistRepository::class, WishlistRepository::class);
+        $this->app->bind(ICartRepository::class, CartRepository::class);
+        $this->app->bind(IWalletRepository::class, WalletRepository::class);
+
+
+
 
     }
 

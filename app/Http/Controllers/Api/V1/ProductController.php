@@ -168,4 +168,9 @@ class ProductController extends Controller
 
         return $this->product->resellerLink($id);
     }
+
+    public function productByLocation($location)
+    {
+        return $this->product->productByLocation($location);
+    }
 }

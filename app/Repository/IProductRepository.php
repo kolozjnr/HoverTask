@@ -15,5 +15,6 @@ interface IProductRepository
     //public function submitProduct(array $product, $id);
     public function approveProduct($id, $status);
     public function resellerLink($id);
+    public function productByLocation($location);
     public function findResellerLink($productId, $resellerIdentifier): ?ResellerLink;
 }

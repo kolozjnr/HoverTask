@@ -40,6 +40,15 @@ class Product extends Model
 
     public function trending()
     {
-        return $this->hasOne(TrendingProduct::class);
+        return $this->hasMany(TrendingProduct::class);
+    }
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 }

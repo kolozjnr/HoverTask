@@ -1,10 +1,13 @@
 <?php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\V1\WalletController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\WishlistController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -32,8 +35,25 @@ Route::prefix('v1')->group(function () {
         Route::post('/approve-product/{id}', [ProductController::class, 'approveProduct'])->name('product.approve');
         Route::get('/show-product/{id}', [ProductController::class, 'show'])->name('product.show');
         Route::get('/show-all-product', [ProductController::class, 'showAll'])->name('product.showAll');
+        Route::get('/location/{location}', [ProductController::class, 'productByLocation'])->name('product.location');
         //generate link
         Route::post('/reseller-link/{id}', [ProductController::class, 'resellerLink'])->name('product.resellerLink');    
+    });
+
+    Route::prefix('wishlists')->middleware('auth:sanctum')->group(function () {
+        Route::post('/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
+            Route::delete('/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+            Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    });
+    Route::prefix('cart')->middleware('auth:sanctum')->group(function () {
+    Route::post('/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/remove/{product}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::get('/cartitems', [CartController::class, 'index'])->name('cart.index');
+    });
+    Route::prefix('wallet')->middleware('auth:sanctum')->group(function () {
+        Route::post('/initialize-payment', [WalletController::class, 'initializePayment'])->name('wallet.initialize');
+        Route::post('/verify-payment', [WalletController::class, 'verifyPayment'])->name('wallet.verify');
+        Route::get('/balance', [WalletController::class, 'getBalance'])->name('wallet.balance');
     });
     
     //Route::get('/get-product/{id}', [ProductController::class, 'show'])->name('product.show');

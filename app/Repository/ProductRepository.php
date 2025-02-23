@@ -89,5 +89,10 @@ class ProductRepository implements IProductRepository
             ->where('product_id', $productId)
             ->first();
     }
+
+    public function productByLocation($location)
+    {
+        return Product::where('location', $location)->get();
+    }
   
 }
