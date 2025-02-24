@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repository\ProductRepository;
 use Illuminate\Support\Facades\Validator;
+use App\Repository\ITrendingProductRepository;
 
 class ProductController extends Controller
 {
@@ -100,11 +101,20 @@ class ProductController extends Controller
     // {
     //     return $this->product->show($id);
     // }
-    public function show(Request $request, $id)
+    public function show(Request $request, $id, ITrendingProductRepository $trendingProduct)
     {
-        $resellerId = $request->query('reseller');
+        $resellerId = $request->query('reseller', null);
 
         try {
+
+            if (!Product::find($id)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Product does not exist',
+                ], 404);
+            }
+            
+            $trendingProduct->incrementViewCount($id);
             $product = $this->product->show($id, $resellerId);
 
             return response()->json([

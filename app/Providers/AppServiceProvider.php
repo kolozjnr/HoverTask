@@ -20,6 +20,8 @@ use App\Repository\WishlistRepository;
 use App\Repository\ICategoryRepository;
 use App\Repository\IWishlistRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Repository\TrendingProductRepository;
+use App\Repository\ITrendingProductRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ICartRepository::class, CartRepository::class);
         $this->app->bind(IWalletRepository::class, WalletRepository::class);
         $this->app->bind(IOrderRepository::class, OrderRepository::class);
+        $this->app->bind(ITrendingProductRepository::class, TrendingProductRepository::class);
         $this->app->bind(PaymentService::class, function ($app) {
             return new PaymentService();
         });
