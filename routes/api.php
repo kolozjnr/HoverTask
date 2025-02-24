@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\WalletController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\WishlistController;
+use App\Http\Controllers\Api\V1\ReviewController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -60,6 +61,11 @@ Route::prefix('v1')->group(function () {
     Route::prefix('payment')->middleware('auth:sanctum')->group(function () {
         Route::post('/initialize-payment', [OrderController::class, 'pay']);
         Route::get('/verify-payment/{reference}', [OrderController::class, 'verify']);
+    });
+
+    Route::prefix('reviews')->middleware('auth:sanctum')->group(function () {
+        Route::post('/reviews', [ReviewController::class, 'store']);
+        Route::get('/reviews/{productId}', [ReviewController::class, 'getReviews']);
     });
     
     //Route::get('/get-product/{id}', [ProductController::class, 'show'])->name('product.show');

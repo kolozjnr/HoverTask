@@ -11,7 +11,9 @@ use App\Repository\ITaskRepository;
 use App\Repository\IUserRepository;
 use App\Repository\OrderRepository;
 use App\Repository\IOrderRepository;
+use App\Repository\ReviewRepository;
 use App\Repository\WalletRepository;
+use App\Repository\IReviewRepository;
 use App\Repository\IWalletRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IWalletRepository::class, WalletRepository::class);
         $this->app->bind(IOrderRepository::class, OrderRepository::class);
         $this->app->bind(ITrendingProductRepository::class, TrendingProductRepository::class);
+        $this->app->bind(IReviewRepository::class, ReviewRepository::class);
         $this->app->bind(PaymentService::class, function ($app) {
             return new PaymentService();
         });
