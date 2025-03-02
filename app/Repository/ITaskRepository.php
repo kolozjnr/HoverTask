@@ -10,7 +10,7 @@ interface ITaskRepository
     public function update($id, array $data);
     //public function delete(Task $task);
     public function showAll(Task $task);
-    public function show(Task $task, $id);
-    public function submitTask(array $task, $id);
+    public function show($id);
+    public function submitTask(array $data, $id);
     public function approveTask($id);
 }

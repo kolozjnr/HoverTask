@@ -10,6 +10,7 @@ use App\Repository\ICartRepository;
 use App\Repository\ITaskRepository;
 use App\Repository\IUserRepository;
 use App\Repository\OrderRepository;
+use App\Services\FileUploadService;
 use App\Repository\IOrderRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\WalletRepository;
@@ -44,6 +45,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IReviewRepository::class, ReviewRepository::class);
         $this->app->bind(PaymentService::class, function ($app) {
             return new PaymentService();
+        });
+        $this->app->bind(FileUploadService::class, function ($app) {
+            return new FileUploadService();
         });
         
     }

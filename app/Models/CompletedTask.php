@@ -14,6 +14,11 @@ class CompletedTask extends Model
         return $this->belongsTo(Task::class);
     }
 
+    /**
+     * The user who completed this task.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

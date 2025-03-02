@@ -96,9 +96,16 @@ class TaskController extends Controller
         ], 200);
     }
 
-    public function show(Task $task, $id)
+    public function show($id)
     {
-        $task = $this->task->show($task, $id);
+        $task = $this->task->show($id);
+
+        if (!$task) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Task not found',
+            ], 404);
+        }
 
         return response()->json([
             'status' => true,
@@ -111,17 +118,26 @@ class TaskController extends Controller
         $task = $this->task->submitTask($request->all(), $id);        
         return response()->json([
             'status' => true,
-            'message' => 'Task submitted successfully',
+            'message' => 'Task submitted successfully, kindly wait for approval',
             'data' => $task,
         ]);
     }
 
     public function approveTask($id) {
-        $task = $this->task->approveTask($id);        
+        $task = $this->task->approveTask($id);
+            
+        if (!$task) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Task not found or already approved',
+            ], 404);
+        }
+    
         return response()->json([
             'status' => true,
             'message' => 'Task approved successfully',
             'data' => $task,
-        ]);
+        ], 200);
+    
     }
 }

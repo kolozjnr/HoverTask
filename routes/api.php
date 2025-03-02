@@ -5,17 +5,25 @@ use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Controllers\Api\V1\WalletController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\WishlistController;
-use App\Http\Controllers\Api\V1\ReviewController;
+use App\Http\Controllers\Api\V1\DashboardController;
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 //Route::post('/send-reset-link', [AuthController::class, 'resetPasswordRequest'])->name('password.reset');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
+
+//Dashboard Routes
+Route::prefix('v1')->group(function () {
+    Route::prefix('dashboard')->middleware('auth:sanctum')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    });
+});
 
 //protected routes TASK
 Route::prefix('v1')->group(function () {
@@ -25,6 +33,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/show-all-task', [TaskController::class, 'showAll'])->name('show.all');
         Route::get('/show-task/{id}', [TaskController::class, 'show'])->name('show.task');
         Route::post('/submit-task/{id}', [TaskController::class, 'submitTask'])->name('submit.task');
+        Route::post('/approve-task/{id}', [TaskController::class, 'approveTask'])->name('approve.task');
     });
 });
 
