@@ -34,6 +34,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/show-task/{id}', [TaskController::class, 'show'])->name('show.task');
         Route::post('/submit-task/{id}', [TaskController::class, 'submitTask'])->name('submit.task');
         Route::post('/approve-task/{id}', [TaskController::class, 'approveTask'])->name('approve.task');
+        Route::post('/approve-completed-task/{id}', [TaskController::class, 'approveCompletedTask'])->name('approve.completed.task');
+        Route::delete('/delete-task/{id}', [TaskController::class, 'deleteTask'])->name('delete.task');
     });
 });
 
@@ -53,13 +55,13 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('wishlists')->middleware('auth:sanctum')->group(function () {
         Route::post('/add/{product}', [WishlistController::class, 'add'])->name('wishlist.add');
-            Route::delete('/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-            Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+        Route::delete('/remove/{product}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+        Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     });
     Route::prefix('cart')->middleware('auth:sanctum')->group(function () {
-    Route::post('/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::delete('/remove/{product}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-    Route::get('/cartitems', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
+        Route::delete('/remove/{product}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+        Route::get('/cartitems', [CartController::class, 'index'])->name('cart.index');
     });
     Route::prefix('wallet')->middleware('auth:sanctum')->group(function () {
         Route::post('/initialize-payment', [WalletController::class, 'initializePayment'])->name('wallet.initialize');

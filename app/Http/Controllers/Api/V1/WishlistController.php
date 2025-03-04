@@ -18,7 +18,7 @@ class WishlistController extends Controller
     }
     public function index()
     {
-        //return $this->wishlistRepository->index(Auth::id());
+        return $this->wishlistRepository->index(Auth::id());
     }
 
     public function add(Product $product)

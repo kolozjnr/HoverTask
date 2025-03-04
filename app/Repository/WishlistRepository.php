@@ -8,6 +8,16 @@ use App\Repository\IWishlistRepository;
 
 class WishlistRepository implements IWishlistRepository
 {
+    public function index(int $userId)
+    {
+        try {
+            return Wishlist::with('product')
+                          ->where('user_id', $userId)
+                          ->get();
+        } catch (Exception $e) {
+            throw new Exception("Failed to fetch wishlist: " . $e->getMessage());
+        }
+    }
     public function add(Product $product, int $userId)
     {
         try {
