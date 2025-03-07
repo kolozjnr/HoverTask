@@ -79,6 +79,24 @@ class User extends Authenticatable
         return $this->hasMany(Withdrawal::class);
     }
 
+    // Users this user is following
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'following_id');
+    }
+
+    // Users following this user
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'following_id', 'follower_id');
+    }
+    
+    // Check if a user is following another user
+    public function isFollowing(User $user)
+    {
+        return $this->following()->where('following_id', $user->id)->exists();
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

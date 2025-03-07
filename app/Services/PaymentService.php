@@ -59,12 +59,9 @@ class PaymentService
 
             $responseData = $response->json();
 
-            // Check if the API request was successful
             if (!$response->successful() || !$responseData['status']) {
                 throw new Exception("Failed to verify payment: " . ($responseData['message'] ?? 'Unknown error'));
             }
-
-            // Check if the payment was successful
             if ($responseData['data']['status'] !== 'success') {
                 throw new Exception("Payment not successful: " . $responseData['data']['gateway_response']);
             }

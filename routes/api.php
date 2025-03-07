@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\CartController;
 use App\Http\Controllers\Api\V1\TaskController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\V1\FollowController;
 use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Controllers\Api\V1\WalletController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -65,7 +66,7 @@ Route::prefix('v1')->group(function () {
     });
     Route::prefix('wallet')->middleware('auth:sanctum')->group(function () {
         Route::post('/initialize-payment', [WalletController::class, 'initializePayment'])->name('wallet.initialize');
-        Route::post('/verify-payment', [WalletController::class, 'verifyPayment'])->name('wallet.verify');
+        Route::get('/verify-payment/{reference}', [WalletController::class, 'verifyPayment'])->name('wallet.verify');
         Route::get('/balance', [WalletController::class, 'getBalance'])->name('wallet.balance');
     });
 
@@ -77,6 +78,11 @@ Route::prefix('v1')->group(function () {
     Route::prefix('reviews')->middleware('auth:sanctum')->group(function () {
         Route::post('/reviews', [ReviewController::class, 'store']);
         Route::get('/reviews/{productId}', [ReviewController::class, 'getReviews']);
+    });
+
+    Route::prefix('follow')->middleware('auth:sanctum')->group(function () {
+        Route::post('/follow/{user}', [FollowController::class, 'follow'])->name('follow');
+        Route::post('/unfollow/{user}', [FollowController::class, 'unfollow'])->name('unfollow');
     });
     
     //Route::get('/get-product/{id}', [ProductController::class, 'show'])->name('product.show');
